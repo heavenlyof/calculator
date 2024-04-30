@@ -1,162 +1,117 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-class Program
+using static ConsoleApp6.Class1;
+using static ConsoleApp6.Class10;
+using static ConsoleApp6.Class2;
+using static ConsoleApp6.Class3;
+using static ConsoleApp6.Class4;
+using static ConsoleApp6.Class5;
+using static ConsoleApp6.Class6;
+using static ConsoleApp6.Class7;
+using static ConsoleApp6.Class8;
+using static ConsoleApp6.Class9;
+
+namespace EngineeringCalculator
 {
-    static void Main()
+    class Program
     {
-        bool exit = false;
-
-        while (!exit)
+        static void Main(string[] args)
         {
-            Console.WriteLine("Выберите операцию:");
-            Console.WriteLine("1. Сложение (+)");
-            Console.WriteLine("2. Вычитание (-)");
-            Console.WriteLine("3. Умножение (*)");
-            Console.WriteLine("4. Деление (/)");
-            Console.WriteLine("5. Степень (sqr)");
-            Console.WriteLine("6. Корень (sqrt)");
-            Console.WriteLine("7. Синус (sin)");
-            Console.WriteLine("8. Косинус (cos)");
-            Console.WriteLine("9. Тангенс (tg)");
-            Console.WriteLine("10. Котангенс (ctg)");
-            Console.WriteLine("11. Выход (end)");
+            bool exit = false;
 
-            string choice = Console.ReadLine();
-
-            switch (choice)
+            while (!exit)
             {
-                case "1":
-                    Addition();
-                    break;
-                case "2":
-                    Subtraction();
-                    break;
-                case "3":
-                    Multiplication();
-                    break;
-                case "4":
-                    Division();
-                    break;
-                case "5":
-                    Power();
-                    break;
-                case "6":
-                    SquareRoot();
-                    break;
-                case "7":
-                    Sine();
-                    break;
-                case "8":
-                    Cosine();
-                    break;
-                case "9":
-                    Tangent();
-                    break;
-                case "10":
-                    Cotangent();
-                    break;
-                case "11":
-                    exit = true;
-                    break;
-                default:
-                    Console.WriteLine("Неверный выбор операции. Попробуйте снова.");
-                    break;
+                Console.WriteLine("Выберите операцию:");
+                Console.WriteLine("1. Сложение (+)");
+                Console.WriteLine("2. Вычитание (-)");
+                Console.WriteLine("3. Умножение (*)");
+                Console.WriteLine("4. Деление (/)");
+                Console.WriteLine("5. Синус (sin)");
+                Console.WriteLine("6. Косинус (cos)");
+                Console.WriteLine("7. Тангенс (tan)");
+                Console.WriteLine("8. Котангенс (cot)");
+                Console.WriteLine("9. Возведение в степень (^)");
+                Console.WriteLine("10. Квадратный корень (√)");
+                Console.WriteLine("11. Выход");
+
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        PerformOperation(Addition.Calculate);
+                        break;
+                    case "2":
+                        PerformOperation(Subtraction.Calculate);
+                        break;
+                    case "3":
+                        PerformOperation(Multiplication.Calculate);
+                        break;
+                    case "4":
+                        PerformOperation(Division.Calculate);
+                        break;
+                    case "5":
+                        PerformTrigonometricOperation(Sine.Calculate, "синус");
+                        break;
+                    case "6":
+                        PerformTrigonometricOperation(Cosine.Calculate, "косинус");
+                        break;
+                    case "7":
+                        PerformTrigonometricOperation(Tangent.Calculate, "тангенс");
+                        break;
+                    case "8":
+                        PerformTrigonometricOperation(Cotangent.Calculate, "котангенс");
+                        break;
+                    case "9":
+                        PerformExponentiation();
+                        break;
+                    case "10":
+                        PerformSquareRoot();
+                        break;
+                    case "11":
+                        exit = true;
+                        break;
+                    default:
+                        Console.WriteLine("Неверная операция. Попробуйте снова.");
+                        break;
+                }
             }
         }
-    }
 
-    static void Addition()
-    {
-        Console.WriteLine("Введите первое число:");
-        double num1 = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine("Введите второе число:");
-        double num2 = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine($"Результат: {num1} + {num2} = {num1 + num2}");
-    }
+        static void PerformOperation(Func<double, double, double> operation)
+        {
+            Console.WriteLine("Введите первое число:");
+            double num1 = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Введите второе число:");
+            double num2 = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine($"Результат: {operation(num1, num2)}");
+        }
 
-    static void Subtraction()
-    {
-        Console.WriteLine("Введите первое число:");
-        double num1 = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine("Введите второе число:");
-        double num2 = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine($"Результат: {num1} - {num2} = {num1 - num2}");
-    }
+        static void PerformTrigonometricOperation(Func<double, double> operation, string operationName)
+        {
+            Console.WriteLine("Введите угол в градусах:");
+            double angleDegrees = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine($"Результат {operationName} угла {angleDegrees} градусов: {operation(angleDegrees)}");
+        }
 
-    static void Multiplication()
-    {
-        Console.WriteLine("Введите первое число:");
-        double num1 = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine("Введите второе число:");
-        double num2 = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine($"Результат: {num1} * {num2} = {num1 * num2}");
-    }
+        static void PerformExponentiation()
+        {
+            Console.WriteLine("Введите число:");
+            double num = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Введите степень:");
+            double exponent = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine($"Результат: {Exponentiation.Calculate(num, exponent)}");
+        }
 
-    static void Division()
-    {
-        Console.WriteLine("Введите делимое:");
-        double dividend = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine("Введите делитель:");
-        double divisor = Convert.ToDouble(Console.ReadLine());
-
-        if (divisor != 0)
-            Console.WriteLine($"Результат: {dividend} / {divisor} = {dividend / divisor}");
-        else
-            Console.WriteLine("Ошибка: деление на ноль.");
-    }
-
-    static void Power()
-    {
-        Console.WriteLine("Введите число:");
-        double num = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine("Введите степень:");
-        double power = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine($"Результат: {num} в степени {power} = {Math.Pow(num, power)}");
-    }
-
-    static void SquareRoot()
-    {
-        Console.WriteLine("Введите число:");
-        double num = Convert.ToDouble(Console.ReadLine());
-        if (num >= 0)
-            Console.WriteLine($"Корень из {num} = {Math.Sqrt(num)}");
-        else
-            Console.WriteLine("Ошибка: извлечение квадратного корня из отрицательного числа.");
-    }
-
-    static void Sine()
-    {
-        Console.WriteLine("Введите угол в градусах:");
-        double angleDegrees = Convert.ToDouble(Console.ReadLine());
-        double angleRadians = angleDegrees * Math.PI / 180; 
-        Console.WriteLine($"Синус угла {angleDegrees} градусов = {Math.Sin(angleRadians)}");
-    }
-
-    static void Cosine()
-    {
-        Console.WriteLine("Введите угол в градусах:");
-        double angleDegrees = Convert.ToDouble(Console.ReadLine());
-        double angleRadians = angleDegrees * Math.PI / 180; 
-        Console.WriteLine($"Косинус угла {angleDegrees} градусов = {Math.Cos(angleRadians)}");
-    }
-
-    static void Tangent()
-    {
-        Console.WriteLine("Введите угол в градусах:");
-        double angleDegrees = Convert.ToDouble(Console.ReadLine());
-        double angleRadians = angleDegrees * Math.PI / 180; 
-        Console.WriteLine($"Тангенс угла {angleDegrees} градусов = {Math.Tan(angleRadians)}");
-    }
-
-    static void Cotangent()
-    {
-        Console.WriteLine("Введите угол в градусах:");
-        double angleDegrees = Convert.ToDouble(Console.ReadLine());
-        double angleRadians = angleDegrees * Math.PI / 180; 
-        double tan = Math.Tan(angleRadians);
-        if (tan != 0)
-            Console.WriteLine($"Котангенс угла {angleDegrees} градусов = {1 / tan}");
-        else
-            Console.WriteLine("Ошибка: котангенс для данного угла не определен (тангенс равен нулю).");
+        static void PerformSquareRoot()
+        {
+            Console.WriteLine("Введите число:");
+            double num = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine($"Результат квадратного корня из {num}: {SquareRoot.Calculate(num)}");
+        }
     }
 }
